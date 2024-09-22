@@ -7,8 +7,8 @@ import registerIcons from './global/register-icons'
 import registerStore from './stores'
 
 const app = createApp(App)
-app.use(registerIcons)
 
+app.use(registerIcons)
 app.use(registerStore)
 app.use(router)
 app.mount('#app')
