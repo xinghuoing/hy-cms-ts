@@ -6,7 +6,7 @@ if (import.meta.env.DEV) {
   BASE_URL = 'http://localhost:8880'
 } else if (import.meta.env.PROD) {
   // 是否为生成环境
-  BASE_URL = 'http://47.97.57.214:8880'
+  BASE_URL = 'http://47.97.57.214:80'
 } else {
   BASE_URL = 'https://coderwhy.org.test'
 }

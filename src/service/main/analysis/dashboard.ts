@@ -1,28 +1,27 @@
 import ytyRequest from '../../index'
 
-enum DashboardAPI {
-  categoryGoodsCount = '/goods/category/count',
-  categoryGoodsSale = '/goods/category/sale',
-  categoryGoodsFavor = '/goods/category/favor',
-  addressGoodsSale = '/goods/address/sale'
+export function getAmountListData() {
+  return ytyRequest.get({
+    url: '/goods/amount/list'
+  })
 }
 export function getCategoryGoodsCount() {
   return ytyRequest.get({
-    url: DashboardAPI.categoryGoodsCount
+    url: '/goods/category/count'
   })
 }
 export function getCategoryGoodsSale() {
   return ytyRequest.get({
-    url: DashboardAPI.categoryGoodsSale
+    url: '/goods/category/sale'
   })
 }
 export function getCategoryGoodsFavor() {
   return ytyRequest.get({
-    url: DashboardAPI.categoryGoodsFavor
+    url: '/goods/category/favor'
   })
 }
 export function getAddressGoodsSale() {
   return ytyRequest.get({
-    url: DashboardAPI.addressGoodsSale
+    url: '/goods/address/sale'
   })
 }

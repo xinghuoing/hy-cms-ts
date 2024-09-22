@@ -1,3 +1,6 @@
+import { LOGIN_TOKEN } from '@/global/constants'
+import { localCache } from '@/utils/cache'
+import { firstMenu } from '@/utils/map-menus'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -5,7 +8,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/main'
     },
     {
       path: '/login',
@@ -13,6 +16,7 @@ const router = createRouter({
     },
     {
       path: '/main',
+      name: 'main',
       component: () => import('@/views/main/main.vue')
     },
     {
@@ -23,5 +27,16 @@ const router = createRouter({
 })
 
 // 导航守卫
+router.beforeEach((to, from) => {
+  const token = localCache.getCache(LOGIN_TOKEN)
+  if (to.path.startsWith('/main') && !token) {
+    return '/login'
+  }
+
+  // 进入main页面
+  if (to.path === '/main') {
+    return firstMenu?.url
+  }
+})
 
 export default router

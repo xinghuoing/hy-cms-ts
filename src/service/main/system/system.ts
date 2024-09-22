@@ -1,28 +1,35 @@
 import ytyRequest from '../../index'
 import type { IDataType } from '@/service/types'
 
-export function getPageListData(url: string, queryInfo: any) {
+// 针对页面的增删改查
+// 不规范的接口可以在这定义一个函数进行转化
+export function postPageListData(pageName: string, queryInfo: any) {
   return ytyRequest.post<IDataType>({
-    url: url,
+    url: `/${pageName}/list`,
     data: queryInfo
   })
 }
-// url => user/id
-export function deletePageData(url: string) {
+export function deletePageById(pageName: string, id: number) {
   return ytyRequest.delete<IDataType>({
-    url: url
+    url: `${pageName}/${id}`
+  })
+}
+export function createPageData(pageName: string, userInfo: any) {
+  return ytyRequest.post<IDataType>({
+    url: `/${pageName}/`,
+    data: userInfo
+  })
+}
+export function editPageData(pageName: string, id: number, userInfo: any) {
+  return ytyRequest.patch<IDataType>({
+    url: `/${pageName}/${id}`,
+    data: userInfo
   })
 }
 
-export function createPageData(url: string, newData: any) {
-  return ytyRequest.post<IDataType>({
-    url: url,
-    data: newData
-  })
-}
-export function editPageData(url: string, editData: any) {
-  return ytyRequest.patch<IDataType>({
-    url: url,
-    data: editData
+// 删除数据库图片的接口
+export function deletePhotoData(pageName: string, goodsId: number) {
+  return ytyRequest.delete<IDataType>({
+    url: `/${pageName}/${goodsId}/photo`
   })
 }

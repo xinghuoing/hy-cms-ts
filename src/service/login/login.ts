@@ -1,6 +1,7 @@
 import ytyRequest from '../index'
-import type { IAccount, ILoginResult } from './type'
+import type { ILoginResult } from './type'
 import type { IDataType } from '../types'
+import type { IAccount } from '@/types'
 
 enum LoginAPI {
   AccountLogin = '/login',
@@ -15,13 +16,13 @@ export function accountLoginRequest(account: IAccount) {
   })
 }
 
-export function requestUserInfoById(id: number) {
+export function getUserInfoById(id: number) {
   return ytyRequest.get<IDataType>({
     url: LoginAPI.LoginUserInfo + id
   })
 }
 
-export function requestUserMenusByRoleId(id: number) {
+export function getUserMenusByRoleId(id: number) {
   return ytyRequest.get<IDataType>({
     url: LoginAPI.UserMenus + id + '/menu'
   })

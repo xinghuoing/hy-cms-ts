@@ -15,17 +15,23 @@
 import { reactive, ref } from 'vue'
 import type { ElForm, FormRules } from 'element-plus'
 import useLoginStore from '@/stores/login/login'
+import type { IAccount } from '@/types'
+import { localCache } from '@/utils/cache'
 
-const account = reactive({
-  name: '',
-  password: ''
+const CACHE_NAME = 'name'
+const CACHE_PASSWORD = 'password'
+
+// 输入框的数据是绑定在这的
+const account = reactive<IAccount>({
+  name: localCache.getCache(CACHE_NAME) ?? '',
+  password: localCache.getCache(CACHE_PASSWORD) ?? ''
 })
 
 // 校验规则
 const accountRules = reactive<FormRules>({
   name: [
     { required: true, message: '必须输入账号信息', trigger: 'blur' },
-    { min: 6, max: 20, message: '长度必须为6~20位', trigger: 'blur' }
+    { min: 4, max: 20, message: '长度必须为6~20位', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '必须输入密码', trigger: 'blur' },
@@ -36,7 +42,7 @@ const accountRules = reactive<FormRules>({
 // 执行登录逻辑
 const formRef = ref<InstanceType<typeof ElForm>>()
 const loginStore = useLoginStore()
-const loginAccount = () => {
+const loginAccount = (isRemPwd: boolean) => {
   // 验证账号密码是否符合规则
   formRef.value?.validate((valid) => {
     if (valid) {
@@ -45,7 +51,16 @@ const loginAccount = () => {
       const password = account.password
 
       // 2.发送网络请求登录(携带上账号密码)
-      loginStore.loginAccountAction({ name, password })
+      loginStore.loginAccountAction({ name, password }).then(() => {
+        // 3.登录成功判断是否记住密码
+        if (isRemPwd) {
+          localCache.setCache(CACHE_NAME, name)
+          localCache.setCache(CACHE_PASSWORD, password)
+        } else {
+          localCache.removeCache(CACHE_NAME)
+          localCache.removeCache(CACHE_PASSWORD)
+        }
+      })
     } else {
       ElMessage.error('请输入正确的格式后再尝试')
     }
