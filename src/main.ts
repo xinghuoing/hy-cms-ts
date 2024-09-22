@@ -12,3 +12,5 @@ app.use(registerIcons)
 app.use(registerStore)
 app.use(router)
 app.mount('#app')
+
+console.log('aaaa')
